@@ -1,4 +1,4 @@
-# EVIDENT — 3-step trajectory rubric judge
+# EVIDENT
 
 Pipeline that evaluates GUI/web agent **trajectories** with a vision-language judge.  
 Default entry point: **`pipeline/main_eval.py`** (local vLLM + **Qwen3-VL**).
