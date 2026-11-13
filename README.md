@@ -28,9 +28,9 @@ EVIDENT/
     __init__.py
     html_statistic.py   # batch / task-type reports and aggregates
     html_rubric.py      # rubric dimension / checkpoint reports
-  submit/              # bundled task metadata
+  tasks/               # bundled task metadata
     150_ko_metadata.json
-    150_en_metadata.json
+    70_en_metadata.json
   README.md
 ```
 
@@ -85,8 +85,8 @@ JSON format: array of `{id, prompt, start_url, …}`, or a bundle `{ "tasks": [.
 Default tasks JSON (in code): `../task_gen/outputs/final/possible_translate_ko_metadata.json`
 
 That default is relative to the repository location, not the current directory.
-To use the bundled metadata, pass `--tasks-json ./submit/150_ko_metadata.json`
-(Korean) or `--tasks-json ./submit/150_en_metadata.json` (English).
+To use the bundled metadata, pass `--tasks-json ./tasks/150_ko_metadata.json`
+(Korean) or `--tasks-json ./tasks/70_en_metadata.json` (English).
 
 ## Usage
 
@@ -132,7 +132,7 @@ python3 -m pipeline.main_eval \
   --episode-id <episode_id>
 ```
 
-`bash run.sh` uses `./submit/150_ko_metadata.json` and `./results`, relative to the
+`bash run.sh` uses `./tasks/150_ko_metadata.json` and `./results`, relative to the
 repository directory. It switches to that directory automatically and activates
 `.venv` if present; otherwise it uses the current environment's `python3`.
 Adjust the results path and judge settings in the script for your environment.

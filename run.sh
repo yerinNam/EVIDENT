@@ -9,7 +9,7 @@ if [[ -f .venv/bin/activate ]]; then
 fi
 
 python3 -m pipeline.main_eval \
-  --tasks-json ./submit/150_ko_metadata.json \
+  --tasks-json ./tasks/150_ko_metadata.json \
   --results-root ./results \
   --max-images 0 \
   --image-chunk-size 8 \
