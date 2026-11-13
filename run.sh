@@ -8,7 +8,7 @@ if [[ -f .venv/bin/activate ]]; then
   source .venv/bin/activate
 fi
 
-python3 main_eval.py \
+python3 -m pipeline.main_eval \
   --tasks-json ./submit/150_ko_metadata.json \
   --results-root ./results \
   --max-images 0 \

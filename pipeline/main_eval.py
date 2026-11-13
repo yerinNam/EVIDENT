@@ -22,13 +22,13 @@ from openai import (
 )
 from tqdm import tqdm
 
-from pipeline.step1_eval import (
+from .step1_eval import (
     effective_step1_chunk_size,
     image_chunk_index_ranges,
     run_step1_window_ocr_with_fallback,
 )
-from pipeline.step2_eval import run_step2_claim_evidence_mapping
-from pipeline.step3_eval import normalize_step3_judgement, run_step3_global_rubric_judgement
+from .step2_eval import run_step2_claim_evidence_mapping
+from .step3_eval import normalize_step3_judgement, run_step3_global_rubric_judgement
 
 from reports.html_statistic import (
     calculate_batch_statistics,
@@ -79,7 +79,7 @@ def resolve_api_base(*, port: int, api_base: str | None) -> str:
         return env_base
     return api_base_for_port(port)
 
-_PROJECT_ROOT = Path(__file__).resolve().parent.parent
+_PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_TASKS_JSON = _PROJECT_ROOT / "task_gen" / "outputs" / "final" / "possible_translate_ko_metadata.json"
 
 # --- Rubric profiles: primary profile per episode (by task_type / id). ---

@@ -16,7 +16,7 @@ from .html_statistic import (
     step3_judgement_from_payload,
 )
 
-# Keep in sync with main_eval._RUBRIC_DIMENSIONS (avoid importing main_eval / openai).
+# Keep in sync with pipeline.main_eval._RUBRIC_DIMENSIONS (avoid importing the judge / openai).
 _RUBRIC_PROFILE_SPEC: dict[str, list[str]] = {
     "common": [
         "intent_grounding",
@@ -346,7 +346,7 @@ def compute_rubric_report(
 ) -> tuple[dict[str, Any], dict[str, Any], dict[str, dict[str, Any]]]:
     """Load judge caches; return (report, outputs, tasks_by_id)."""
     from html_from_cache import load_outputs_from_cache
-    from main_eval import _load_tasks_by_id
+    from pipeline.main_eval import _load_tasks_by_id
 
     tasks_by_id = _load_tasks_by_id(tasks_json)
     meta_ids = list(tasks_by_id.keys())

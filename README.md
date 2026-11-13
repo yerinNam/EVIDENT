@@ -1,7 +1,7 @@
 # EVIDENT — 3-step trajectory rubric judge
 
 Pipeline that evaluates GUI/web agent **trajectories** with a vision-language judge.  
-Default entry point: **`main_eval.py`** (local vLLM + **Qwen3-VL**).
+Default entry point: **`pipeline/main_eval.py`** (local vLLM + **Qwen3-VL**).
 
 ## Pipeline (3 steps)
 
@@ -11,16 +11,16 @@ Default entry point: **`main_eval.py`** (local vLLM + **Qwen3-VL**).
 | **2** | `pipeline/step2_eval.py` | Step 1 + `final_answer` | Map and review **claims** in the final answer vs evidence (text only, no images) |
 | **3** | `pipeline/step3_eval.py` | Steps 1–2 + task metadata | **Global rubric** judgement (`answer_success`, per-dimension pass/fail, …) |
 
-Steps 2 and 3 are text-only API calls. On vLLM, VL models can return empty JSON for multimodal payloads with no images; `main_eval.py` sends user content as a **plain string** when there are no images.
+Steps 2 and 3 are text-only API calls. On vLLM, VL models can return empty JSON for multimodal payloads with no images; `pipeline/main_eval.py` sends user content as a **plain string** when there are no images.
 
 ## Layout
 
 ```
 EVIDENT/
-  main_eval.py          # Qwen / local vLLM entry point
   run.sh                # example batch run
-  pipeline/            # evaluation stages and prompts
+  pipeline/            # evaluation entry point, stages, and prompts
     __init__.py
+    main_eval.py       # Qwen / local vLLM entry point
     step1_eval.py
     step2_eval.py
     step3_eval.py
@@ -42,7 +42,7 @@ and report utilities as `reports.html_statistic` or `reports.html_rubric`.
 ## Prerequisites
 
 - Python 3.10+ (`openai`, `tqdm` — project venv recommended)
-- **Qwen judge (`main_eval.py`)**: OpenAI-compatible **vLLM** server must be running  
+- **Qwen judge (`pipeline/main_eval.py`)**: OpenAI-compatible **vLLM** server must be running
   - Default API: `http://127.0.0.1:8005/v1`  
   - Default model: `Qwen/Qwen3-VL-235B-A22B-Instruct-FP8`
 
@@ -90,7 +90,7 @@ To use the bundled metadata, pass `--tasks-json ./submit/150_ko_metadata.json`
 
 ## Usage
 
-Run Python commands from the `EVIDENT` directory.
+Run Python commands from the `EVIDENT` directory using `python3 -m pipeline.main_eval`.
 
 ```bash
 cd /path/to/EVIDENT
@@ -100,7 +100,7 @@ source .venv/bin/activate   # optional
 ### Single episode
 
 ```bash
-python3 main_eval.py \
+python3 -m pipeline.main_eval \
   --run-dir /path/to/results/<episode_id> \
   --tasks-json /path/to/tasks.json \
   --final-answer-file /path/to/final_answer.txt \
@@ -113,7 +113,7 @@ If a cache file exists in the run dir, it is loaded without calling the judge ag
 ### Batch
 
 ```bash
-python3 main_eval.py \
+python3 -m pipeline.main_eval \
   --tasks-json /path/to/tasks.json \
   --results-root /path/to/agent_results \
   --workers 8 \
@@ -126,7 +126,7 @@ python3 main_eval.py \
 Single episode filter:
 
 ```bash
-python3 main_eval.py \
+python3 -m pipeline.main_eval \
   --tasks-json /path/to/tasks.json \
   --results-root /path/to/agent_results \
   --episode-id <episode_id>
@@ -182,11 +182,11 @@ Adjust the results path and judge settings in the script for your environment.
 - **SR**: Fraction of trajectory steps in the longest error-free prefix
 - **DDR / ASS**: Dead-end and successful-trajectory step stats in batch `meta`
 
-Rubrics merge a **common three dimensions** with task-type profiles (`semantic_grounding`, `contextual_inference`, `visual_grounding`, …) for Step 3 scoring (`_RUBRIC_DIMENSIONS` in `main_eval.py`).
+Rubrics merge a **common three dimensions** with task-type profiles (`semantic_grounding`, `contextual_inference`, `visual_grounding`, …) for Step 3 scoring (`_RUBRIC_DIMENSIONS` in `pipeline/main_eval.py`).
 
 ## Notes
 
-- `main_eval.py` is the judge entry point included in this checkout.
-- Run the rubric module as `python3 -m reports.html_rubric` from the repository directory. Its standalone cache-loading path still depends on `html_from_cache`, which is absent from this checkout; this pre-existing limitation does not affect batch HTML rendering through `main_eval.py`.
+- `pipeline/main_eval.py` is the judge entry point included in this checkout.
+- Run the rubric module as `python3 -m reports.html_rubric` from the repository directory. Its standalone cache-loading path still depends on `html_from_cache`, which is absent from this checkout; this pre-existing limitation does not affect batch HTML rendering through `pipeline/main_eval.py`.
 - Set API keys **only via environment variables** — do not put them in the README, logs, or commits.
 - Outputs and HTML may include trajectory text; check for sensitive URLs, accounts, or PII before sharing externally.
