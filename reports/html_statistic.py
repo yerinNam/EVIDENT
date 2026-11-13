@@ -541,7 +541,7 @@ def calculate_html_report_statistics(
     return result
 
 
-_PROJECT_ROOT = Path(__file__).resolve().parent.parent
+_PROJECT_ROOT = Path(__file__).resolve().parents[2]
 _TSR_OUTPUTS_ROOT = _PROJECT_ROOT / "task_eval_tsr" / "outputs"
 
 _TASK_TYPE_SLICE_ORDER = (
@@ -1094,7 +1094,7 @@ def save_batch_html_report(
         for k, v in sorted(label_counts.items(), key=lambda x: x[0])
     )
     nav_html = _render_nav_html(nav_links)
-    from html_rubric import render_rubric_statistics_html
+    from .html_rubric import render_rubric_statistics_html
 
     rubric_html = render_rubric_statistics_html(stats_outputs, tasks_by_id)
     table_rows, verdict_cards = _render_verdict_sections(

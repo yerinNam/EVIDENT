@@ -1,10 +1,15 @@
 #!/bin/bash
+set -euo pipefail
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 
 echo "[INFO] Starting evaluation..."
-source .venv/bin/activate
+if [[ -f .venv/bin/activate ]]; then
+  source .venv/bin/activate
+fi
 
 python3 main_eval.py \
-  --tasks-json ./task/150_ko_metadata.json \
+  --tasks-json ./submit/150_ko_metadata.json \
   --results-root ./results \
   --max-images 0 \
   --image-chunk-size 8 \

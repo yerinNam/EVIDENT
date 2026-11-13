@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from step2_eval import build_step3_evidence_catalog  # unified pipeline uses same catalog builder
+from .step2_eval import build_step3_evidence_catalog  # unified pipeline uses same catalog builder
 
 STEP3_GLOBAL_RUBRIC_PROMPT = """You are the final audit judge for a GUI/web agent trajectory.
 

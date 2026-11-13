@@ -22,15 +22,15 @@ from openai import (
 )
 from tqdm import tqdm
 
-from step1_eval import (
+from pipeline.step1_eval import (
     effective_step1_chunk_size,
     image_chunk_index_ranges,
     run_step1_window_ocr_with_fallback,
 )
-from step2_eval import run_step2_claim_evidence_mapping
-from step3_eval import normalize_step3_judgement, run_step3_global_rubric_judgement
+from pipeline.step2_eval import run_step2_claim_evidence_mapping
+from pipeline.step3_eval import normalize_step3_judgement, run_step3_global_rubric_judgement
 
-from html_statistic import (
+from reports.html_statistic import (
     calculate_batch_statistics,
     missing_judge_cache_payload,
     save_batch_html_report,

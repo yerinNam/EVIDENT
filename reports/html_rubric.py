@@ -10,7 +10,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 
-from html_statistic import (
+from .html_statistic import (
     filter_outputs_by_tasks,
     iter_statistics_slices,
     step3_judgement_from_payload,
@@ -62,7 +62,7 @@ def rubric_dimension_ids(profile: str) -> list[str]:
             out.append(did)
     return out
 
-_PROJECT_ROOT = Path(__file__).resolve().parent.parent
+_PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_TASKS_JSON = _PROJECT_ROOT / "task_gen" / "outputs" / "300" / "150_ko_metadata.json"
 DEFAULT_RESULTS_ROOT = _PROJECT_ROOT / "agent_results" / "results_cua" / "final_gemini3" / "korean"
 RUBRIC_HTML_FILENAME = "!__rubric.html"
@@ -113,7 +113,7 @@ def dimension_status_from_judgement(judgement: dict[str, Any]) -> dict[str, str]
 
     scores = judgement.get("dimension_scores")
     if isinstance(scores, dict):
-        from html_statistic import dimension_pass_numeric
+        from .html_statistic import dimension_pass_numeric
 
         out = {}
         for dim, raw in scores.items():
